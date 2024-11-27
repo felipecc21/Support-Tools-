@@ -10,9 +10,9 @@ Echo *******************************************
 echo *         ESCOLHA UMA OPCAO:              *
 eCHO *******************************************
 Echo *                    *                    *
-Echo * 1: CHECAR NEURONIO * 2: PARAR PROCESSOS *
+Echo * 1: CHECAR NEURONIO * 2: APAGAR NEURONIO *
 Echo *******************************************
-Echo * 3: APAGAR NEURONIO *    4: SAIR         *
+Echo * 3: INSTALAR NEURONIO *    4: SAIR       *
 Echo *******************************************
 Echo. 
 
@@ -24,45 +24,45 @@ goto %errorlevel%
 
 :1
 cls
-::cd/blips
-::neuronio -testar
-calc
-echo CALCULADORA ABERTA
+echo Checando status do neuronio. 
+cd/blips
+neuronio -testar >> neustatus.txt
 pause
 cls
 goto interface
 
 
-:: Parar processos. 
+:: Parar processos E DELETAR NEURONIO. 
 
 :2
 cls
-taskkill /IM CalculatorApp.exe /F
-
-::taskkill /IM notificacao.exe /F
-
-::taskkill /IM servico.exe /F
-
 echo: FINALIZANDO NEURONIO
+taskkill /IM notificacao.exe /F
+taskkill /IM servico.exe /F
+Echo DELETANDO NEURONIO
+cd/
+rmdir blips /S
 pause
 cls
-
 
 goto interface
 
 
-:: Apagar neuronio
+:: Instalar neuronio
 
 :3
 cls
-cd/
-rmdir blips /S
+Echo Downaload neuronio....
 
-
-echo: VOCE VAI APAGAR O NEURONIO
+curl -o neuronio.exe "https://blips-iot-download.s3.amazonaws.com/neuronio_instalador.exe"
+Echo.
+Echo Iniciando instalacao. 
+neuronio.exe
 pause
 cls
 goto interface
+
+
 
 :4
 exit
